@@ -29,17 +29,17 @@ class HomeView extends GetView<HomeController> {
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(
-                  sigmaX: 20,
-                  sigmaY: 20,
+                  sigmaX: 50,
+                  sigmaY: 50,
                 ),
                 child: Container(
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.white,
-                      width: 0.5,
+                      width: 0.1,
                     ),
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.black.withOpacity(0.02),
                     borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.height * 0.04,
                     ),
