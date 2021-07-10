@@ -29,8 +29,8 @@ class HomeView extends GetView<HomeController> {
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(
-                  sigmaX: 50,
-                  sigmaY: 50,
+                  sigmaX: 10,
+                  sigmaY: 10,
                 ),
                 child: Container(
                   padding: EdgeInsets.all(15),
