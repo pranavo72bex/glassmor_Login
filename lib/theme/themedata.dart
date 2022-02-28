@@ -13,9 +13,7 @@ class Apptheme {
         ),
       ),
     ),
-    primarySwatch: Colors.grey,
     scaffoldBackgroundColor: Colors.white,
-    accentColor: Colors.grey,
     inputDecorationTheme: InputDecorationTheme(
       isDense: true,
       contentPadding: EdgeInsets.fromLTRB(38, 18, 0, 18),
@@ -26,5 +24,7 @@ class Apptheme {
         ),
       ),
     ),
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey)
+        .copyWith(secondary: Colors.grey),
   );
 }

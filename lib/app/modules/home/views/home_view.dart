@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import 'package:get/get.dart';
 
@@ -10,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormBuilderState>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -46,37 +48,43 @@ class HomeView extends GetView<HomeController> {
                   ),
                   height: MediaQuery.of(context).size.height * 0.65,
                   width: MediaQuery.of(context).size.width * 0.85,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      CustomsizeBox(height: 10),
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          hintText: "Email",
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
+                  child: FormBuilder(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Sign Up",
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
-                          prefixIcon: Icon(
-                            Icons.mail_outline,
+                        ),
+                        CustomsizeBox(height: 10),
+                        FormBuilderTextField(
+                          name: 'email',
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            hintText: "Email",
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            prefixIcon: Icon(
+                              Icons.mail_outline,
+                            ),
+                          ),
+                          validator: FormBuilderValidators.email(
+                            context,
+                            errorText: (ValidatorMessage.emailValidation),
                           ),
                         ),
-                        onSaved: (value) {},
-                        validator: (value) {},
-                      ),
-                      CustomsizeBox(height: 10),
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
+                        CustomsizeBox(height: 10),
+                        FormBuilderTextField(
+                          name: 'password',
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
                             hintText: "Password",
                             hintStyle: TextStyle(
                               color: Colors.grey,
@@ -87,19 +95,44 @@ class HomeView extends GetView<HomeController> {
                             ),
                             suffixIcon: Icon(
                               Icons.remove_red_eye_outlined,
-                            )),
-                        onSaved: (value) {},
-                        validator: (value) {},
-                      ),
-                      CustomsizeBox(height: 20),
-                      Custombutton(),
-                      CustomsizeBox(height: 20),
-                      ForgetSignup(),
-                      CustomsizeBox(height: 20),
-                      CustomDivider(),
-                      CustomsizeBox(height: 20),
-                      CustomSocialmedia()
-                    ],
+                            ),
+                          ),
+                          validator: FormBuilderValidators.compose(
+                            [
+                              FormBuilderValidators.required(
+                                context,
+                                errorText:
+                                    (ValidatorMessage.requiredValidation),
+                              ),
+                              FormBuilderValidators.match(
+                                context,
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                                errorText: ValidatorMessage.regexValidation,
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomsizeBox(height: 20),
+                        SizedBox(
+                          height: 50,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (!formKey.currentState!.saveAndValidate()) {
+                                return;
+                              }
+                            },
+                            child: Text("Login"),
+                          ),
+                        ),
+                        CustomsizeBox(height: 20),
+                        ForgetSignup(),
+                        CustomsizeBox(height: 20),
+                        CustomDivider(),
+                        CustomsizeBox(height: 20),
+                        CustomSocialmedia()
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -109,6 +142,15 @@ class HomeView extends GetView<HomeController> {
       ),
     );
   }
+}
+
+class ValidatorMessage {
+  const ValidatorMessage._private();
+
+  static const emailValidation = 'Enter a Valid Email';
+  static const passwordValidation = 'Enter a Valid Password';
+  static const requiredValidation = 'Required';
+  static const regexValidation = "regexValidation";
 }
 
 class CustomsizeBox extends StatelessWidget {
@@ -207,24 +249,6 @@ class CustomText extends StatelessWidget {
         fontWeight: FontWeight.bold,
         fontSize: 15,
         decoration: TextDecoration.underline,
-      ),
-    );
-  }
-}
-
-class Custombutton extends StatelessWidget {
-  const Custombutton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {},
-        child: Text("Login"),
       ),
     );
   }
