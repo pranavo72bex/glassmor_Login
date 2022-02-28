@@ -18,7 +18,7 @@ class HomeView extends GetView<HomeController> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/bc.jpg"),
-              fit: BoxFit.scaleDown,
+              fit: BoxFit.fill,
             ),
           ),
           child: Center(
@@ -57,29 +57,47 @@ class HomeView extends GetView<HomeController> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
+                      CustomsizeBox(height: 10),
+                      TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          hintText: "Email",
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.mail_outline,
+                          ),
+                        ),
+                        onSaved: (value) {},
+                        validator: (value) {},
                       ),
-                      emailtextfield(),
-                      SizedBox(
-                        height: 10,
+                      CustomsizeBox(height: 10),
+                      TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                            hintText: "Password",
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            prefixIcon: Icon(
+                              Icons.lock,
+                            ),
+                            suffixIcon: Icon(
+                              Icons.remove_red_eye_outlined,
+                            )),
+                        onSaved: (value) {},
+                        validator: (value) {},
                       ),
-                      passwordtextfield(),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      CustomsizeBox(height: 20),
                       Custombutton(),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      forget_signup(),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      CustomsizeBox(height: 20),
+                      ForgetSignup(),
+                      CustomsizeBox(height: 20),
                       CustomDivider(),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      CustomsizeBox(height: 20),
                       CustomSocialmedia()
                     ],
                   ),
@@ -91,42 +109,18 @@ class HomeView extends GetView<HomeController> {
       ),
     );
   }
+}
 
-  TextFormField passwordtextfield() {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          hintText: "Password",
-          hintStyle: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
-          ),
-          prefixIcon: Icon(
-            Icons.lock,
-          ),
-          suffixIcon: Icon(
-            Icons.remove_red_eye_outlined,
-          )),
-      onSaved: (value) {},
-      validator: (value) {},
-    );
-  }
-
-  TextFormField emailtextfield() {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        hintText: "Email",
-        hintStyle: TextStyle(
-          color: Colors.grey,
-          fontWeight: FontWeight.bold,
-        ),
-        prefixIcon: Icon(
-          Icons.mail_outline,
-        ),
-      ),
-      onSaved: (value) {},
-      validator: (value) {},
+class CustomsizeBox extends StatelessWidget {
+  const CustomsizeBox({
+    Key? key,
+    required this.height,
+  }) : super(key: key);
+  final double height;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
     );
   }
 }
@@ -141,13 +135,13 @@ class CustomSocialmedia extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        socialMedia(
+        SocialMedia(
           icon: FontAwesomeIcons.facebook,
         ),
-        socialMedia(
+        SocialMedia(
           icon: FontAwesomeIcons.twitch,
         ),
-        socialMedia(
+        SocialMedia(
           icon: FontAwesomeIcons.twitter,
         ),
       ],
@@ -181,8 +175,8 @@ class CustomDivider extends StatelessWidget {
   }
 }
 
-class forget_signup extends StatelessWidget {
-  const forget_signup({
+class ForgetSignup extends StatelessWidget {
+  const ForgetSignup({
     Key? key,
   }) : super(key: key);
 
@@ -191,25 +185,29 @@ class forget_signup extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          "Forget Password?",
-          style: TextStyle(
-            color: Colors.white70,
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-        Text(
-          "Sign Up",
-          style: TextStyle(
-            color: Colors.white70,
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-            decoration: TextDecoration.underline,
-          ),
-        ),
+        CustomText(text: 'Forget Password?'),
+        CustomText(text: 'Sign Up'),
       ],
+    );
+  }
+}
+
+class CustomText extends StatelessWidget {
+  const CustomText({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: Colors.white70,
+        fontWeight: FontWeight.bold,
+        fontSize: 15,
+        decoration: TextDecoration.underline,
+      ),
     );
   }
 }
@@ -232,12 +230,12 @@ class Custombutton extends StatelessWidget {
   }
 }
 
-class socialMedia extends StatelessWidget {
-  const socialMedia({
+class SocialMedia extends StatelessWidget {
+  const SocialMedia({
     Key? key,
-    this.icon,
+    required this.icon,
   }) : super(key: key);
-  final icon;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
