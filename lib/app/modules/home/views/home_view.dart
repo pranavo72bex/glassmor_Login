@@ -1,12 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-
-import '../controllers/home_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:glassmor_login/app/modules/home/controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -76,7 +74,6 @@ class HomeView extends GetView<HomeController> {
                             ),
                           ),
                           validator: FormBuilderValidators.email(
-                            context,
                             errorText: (ValidatorMessage.emailValidation),
                           ),
                         ),
@@ -100,12 +97,10 @@ class HomeView extends GetView<HomeController> {
                           validator: FormBuilderValidators.compose(
                             [
                               FormBuilderValidators.required(
-                                context,
                                 errorText:
                                     (ValidatorMessage.requiredValidation),
                               ),
                               FormBuilderValidators.match(
-                                context,
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                                 errorText: ValidatorMessage.regexValidation,
                               ),
